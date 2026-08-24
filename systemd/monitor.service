@@ -1,0 +1,6 @@
+[Unit]
+Description=Basic system metrics collection
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/collect_metrics.sh -o /var/log/system-monitor/metrics.log
