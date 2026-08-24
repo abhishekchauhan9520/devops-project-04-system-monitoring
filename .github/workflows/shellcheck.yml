@@ -1,0 +1,19 @@
+name: Validate Bash Monitoring Script
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ShellCheck
+        uses: ludeeus/action-shellcheck@master
+      - name: Smoke tests
+        run: ./tests/test_collect_metrics.sh
+      - name: Validate systemd units
+        run: |
+          sudo install -D -m 0755 scripts/collect_metrics.sh /usr/local/bin/collect_metrics.sh
+          systemd-analyze verify systemd/monitor.service systemd/monitor.timer
